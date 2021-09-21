@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+        <groupId>com.xiongyayun.cloud</groupId>
+        <artifactId>athena-spring-cloud-build</artifactId>
+		<version>${revision}</version>
+		<relativePath>../../pom.xml</relativePath>
+    </parent>
+	<artifactId>athena-spring-cloud-dependencies</artifactId>
+    <packaging>pom</packaging>
+	<name>Athena Spring Cloud Dependencies</name>
+    <description>依赖</description>
+
+    <properties>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
+		<alibaba-cloud.version>2021.1</alibaba-cloud.version>
+
+		<!--Plugin Versions-->
+		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+		<dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+		<build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
+		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
+		<xml-maven-plugin.version>1.0.2</xml-maven-plugin.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringCloud Dependencies -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			<!-- AlibabaCloud Dependencies -->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${alibaba-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!--plugin management-->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>${flatten-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>xml-maven-plugin</artifactId>
+					<version>${xml-maven-plugin.version}</version>
+				</plugin>
+            </plugins>
+        </pluginManagement>
+		<plugins>
+			<!-- 编译 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<parameters>true</parameters>
+				</configuration>
+			</plugin>
+			<!-- 打包 -->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Implementation-Title>${project.name}</Implementation-Title>
+							<Automatic-Module-Name>${project.artifactId}</Automatic-Module-Name>
+							<Implementation-Version>${revision}</Implementation-Version>
+							<Built-By>Athena</Built-By>
+							<Email>xiongyayun428@163.com</Email>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<!--打包跳过测试-->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+    </build>
+</project>

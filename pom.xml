@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>oss-parent</artifactId>
+		<groupId>com.xiongyayun</groupId>
+		<version>0.0.5</version>
+		<relativePath /><!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.xiongyayun.cloud</groupId>
+	<artifactId>athena-spring-cloud-build</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<name>Athena Spring Cloud Build</name>
+	<description>雅典娜项目</description>
+
+	<properties>
+		<revision>1.0-SNAPSHOT</revision>
+
+		<git.url>https://github.com/xiongyayun428/athena-spring-cloud</git.url>
+		<git.connection>scm:git:git://github.com/xiongyayun428/athena-spring-cloud.git</git.connection>
+		<git.developerConnection>scm:git:ssh://git@github.com/xiongyayun428/athena-spring-cloud.git</git.developerConnection>
+	</properties>
+
+	<scm>
+		<url>${git.url}</url>
+		<connection>${git.connection}</connection>
+		<developerConnection>${git.developerConnection}</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/xiongyayun428/athena-spring-cloud/issues</url>
+	</issueManagement>
+
+	<modules>
+		<module>athena-spring-cloud-project</module>
+        <module>athena-spring-cloud-samples</module>
+	</modules>
+
+	<build>
+		<resources>
+			<!-- 先指定 src/main/resources下所有文件及文件夹为资源文件 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
